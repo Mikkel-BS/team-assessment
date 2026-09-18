@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="A privacy-first, research-informed team functioning assessment that runs entirely in the browser." />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'" />
+  <title>Team Functioning Assessment</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="#home" aria-label="Team Functioning Assessment home">Team Functioning</a>
+      <nav aria-label="Primary navigation">
+        <a href="#assessment">Assess</a>
+        <a href="#aggregate">Aggregate</a>
+        <a href="#methodology">Methodology</a>
+        <a href="#privacy">Privacy</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section id="home" class="hero wrap">
+      <div>
+        <p class="eyebrow">Research-informed · privacy-first · static</p>
+        <h1>How well is your team functioning?</h1>
+        <p class="lede">A practical team diagnostic grounded in established research on team effectiveness, teamwork processes, psychological safety, and teamwork quality. Your answers stay in memory on your device unless you explicitly export them.</p>
+        <div class="actions">
+          <a class="button primary" href="#assessment">Start assessment</a>
+          <a class="button secondary" href="#aggregate">Combine team responses</a>
+        </div>
+        <p class="microcopy">No account. No analytics. No cookies. No localStorage. No network requests.</p>
+      </div>
+      <aside class="hero-card" aria-label="Assessment overview">
+        <div><strong>28</strong><span>statements</span></div>
+        <div><strong>8</strong><span>team-functioning dimensions</span></div>
+        <div><strong>4</strong><span>outcome indicators</span></div>
+        <div><strong>~6 min</strong><span>typical completion time</span></div>
+      </aside>
+    </section>
+
+    <section class="band">
+      <div class="wrap grid-3">
+        <article>
+          <h2>For individuals</h2>
+          <p>Rate your current team. Results are calculated locally and can be exported as an anonymous response file.</p>
+        </article>
+        <article>
+          <h2>For facilitators</h2>
+          <p>Import multiple response files on one device to create a team-level profile, including average scores and disagreement.</p>
+        </article>
+        <article>
+          <h2>For deeper analysis</h2>
+          <p>Generate a predefined LLM analysis prompt from the aggregate result. You decide whether and where to paste it.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="assessment" class="wrap section">
+      <div class="section-heading">
+        <p class="eyebrow">Individual assessment</p>
+        <h2>Rate the team you work in now</h2>
+        <p>Use the same team as your reference throughout. Answer based on typical behavior over the last 6–8 weeks, not the best or worst day.</p>
+      </div>
+
+      <div id="assessmentStart" class="panel">
+        <h3>Before you begin</h3>
+        <ul class="plain-list">
+          <li>This is a research-informed diagnostic, not a clinical or personnel-selection instrument.</li>
+          <li>The item wording is original/adapted; it is not an authorized copy of any proprietary survey.</li>
+          <li>Use results for team reflection and development, not individual performance evaluation.</li>
+        </ul>
+        <button id="beginBtn" class="button primary" type="button">Begin</button>
+      </div>
+
+      <form id="assessmentForm" class="hidden" novalidate>
+        <div class="progress-shell" aria-label="Assessment progress">
+          <div class="progress-row"><span id="progressText">0 of 28 answered</span><span id="progressPct">0%</span></div>
+          <div class="progress-track"><div id="progressBar" class="progress-bar"></div></div>
+        </div>
+        <div id="questionList"></div>
+        <div class="form-actions">
+          <button type="button" id="resetBtn" class="button secondary">Clear answers</button>
+          <button type="submit" class="button primary">View my results</button>
+        </div>
+        <p id="formError" class="error" role="alert" aria-live="polite"></p>
+      </form>
+
+      <section id="individualResults" class="hidden results panel" aria-live="polite">
+        <div class="results-header">
+          <div>
+            <p class="eyebrow">Your perspective</p>
+            <h3>Team functioning profile</h3>
+          </div>
+          <div class="index-card">
+            <span>Functioning index</span>
+            <strong id="individualIndex">—</strong>
+            <small>descriptive, not norm-referenced</small>
+          </div>
+        </div>
+        <p id="individualSummary" class="summary-callout"></p>
+        <div id="individualBars" class="score-bars"></div>
+        <div class="results-actions">
+          <button id="exportResponseBtn" type="button" class="button primary">Export anonymous response (.json)</button>
+          <button id="copyIndividualPromptBtn" type="button" class="button secondary">Copy LLM analysis prompt</button>
+          <button id="retakeBtn" type="button" class="button secondary">Retake</button>
+        </div>
+        <p id="individualActionStatus" class="status" aria-live="polite"></p>
+      </section>
+    </section>
+
+    <section id="aggregate" class="section section-alt">
+      <div class="wrap">
+        <div class="section-heading">
+          <p class="eyebrow">Team aggregation</p>
+          <h2>Combine anonymous response files</h2>
+          <p>Ask each team member to export their JSON response, then select all files here. Processing happens locally on this device.</p>
+        </div>
+
+        <div class="panel">
+          <label class="file-drop" for="teamFiles">
+            <strong>Select response files</strong>
+            <span>Choose two or more <code>.json</code> files created by this site.</span>
+            <input id="teamFiles" type="file" accept="application/json,.json" multiple />
+          </label>
+          <div id="fileStatus" class="status" aria-live="polite"></div>
+        </div>
+
+        <section id="teamResults" class="hidden results panel">
+          <div class="results-header">
+            <div>
+              <p class="eyebrow">Team profile</p>
+              <h3><span id="responseCount">0</span> responses combined</h3>
+            </div>
+            <div class="index-card">
+              <span>Functioning index</span>
+              <strong id="teamIndex">—</strong>
+              <small>mean across dimensions</small>
+            </div>
+          </div>
+          <div id="smallNWarning" class="warning hidden"></div>
+          <p id="teamSummary" class="summary-callout"></p>
+          <div id="teamBars" class="score-bars"></div>
+          <div class="legend" aria-label="Disagreement legend">
+            <span><i class="dot low"></i> relatively consistent</span>
+            <span><i class="dot med"></i> some variation</span>
+            <span><i class="dot high"></i> mixed experience</span>
+          </div>
+          <div class="results-actions">
+            <button id="copyTeamPromptBtn" type="button" class="button primary">Copy team LLM analysis prompt</button>
+            <button id="exportTeamCsvBtn" type="button" class="button secondary">Export team summary (.csv)</button>
+            <button id="clearTeamBtn" type="button" class="button secondary">Clear imported data</button>
+          </div>
+          <p id="teamActionStatus" class="status" aria-live="polite"></p>
+        </section>
+      </div>
+    </section>
+
+    <section id="methodology" class="wrap section">
+      <div class="section-heading">
+        <p class="eyebrow">Methodology</p>
+        <h2>What this assessment measures</h2>
+        <p>The model synthesizes constructs repeatedly associated with effective teamwork. It intentionally avoids claiming that this exact 28-item questionnaire has been separately validated.</p>
+      </div>
+      <div class="method-grid">
+        <article class="method-card"><h3>Psychological safety</h3><p>Interpersonal risk-taking, speaking up, asking for help, and surfacing mistakes.</p><span>Edmondson (1999)</span></article>
+        <article class="method-card"><h3>Shared direction & mental models</h3><p>Clarity about goals, priorities, roles, and how work fits together.</p><span>Hackman/Wageman; Salas et al.</span></article>
+        <article class="method-card"><h3>Communication & coordination</h3><p>Timely information exchange, confirmation, and synchronization of interdependent work.</p><span>Hoegl & Gemuenden; Salas et al.</span></article>
+        <article class="method-card"><h3>Mutual monitoring & accountability</h3><p>Awareness of progress, constructive challenge, and reliable follow-through.</p><span>Salas et al.</span></article>
+        <article class="method-card"><h3>Backup & mutual support</h3><p>Helping overloaded colleagues and reallocating effort when demands shift.</p><span>Salas et al.; Hoegl & Gemuenden</span></article>
+        <article class="method-card"><h3>Adaptability & learning</h3><p>Adjusting plans, learning from outcomes, and changing routines when evidence warrants it.</p><span>Salas et al.; Edmondson</span></article>
+        <article class="method-card"><h3>Trust & team orientation</h3><p>Prioritizing collective success, assuming constructive intent, and using diverse contributions.</p><span>Salas et al.; Hoegl & Gemuenden</span></article>
+        <article class="method-card"><h3>Enabling conditions & leadership</h3><p>Useful structure, access to resources, coaching, and a context that supports effective teamwork.</p><span>Team Diagnostic Survey</span></article>
+      </div>
+
+      <div class="panel methodology-notes">
+        <h3>Scoring and interpretation</h3>
+        <p>Each item uses a 1–5 agreement scale. Dimension scores are means of their three items. The overall functioning index is the unweighted mean of the eight functioning dimensions; the four outcome indicators are shown separately and are not included in that index.</p>
+        <p>Labels such as “developing” or “strong” are descriptive cut-points for reflection, not population norms. For team aggregates, the app also calculates the standard deviation across respondents for each dimension to make divergent experiences visible.</p>
+        <p><strong>Best practice:</strong> discuss patterns, low dimensions, and high disagreement together. Averages can conceal subgroups or uneven experiences.</p>
+      </div>
+
+      <div class="references">
+        <h3>Core research</h3>
+        <ol>
+          <li>Wageman, R., Hackman, J. R., & Lehman, E. (2005). <em>Team Diagnostic Survey: Development of an Instrument.</em> Journal of Applied Behavioral Science, 41(4), 373–398. <a href="https://doi.org/10.1177/0021886305281984" rel="noreferrer">DOI</a></li>
+          <li>Salas, E., Sims, D. E., & Burke, C. S. (2005). <em>Is There a “Big Five” in Teamwork?</em> Small Group Research, 36(5), 555–599. <a href="https://doi.org/10.1177/1046496405277134" rel="noreferrer">DOI</a></li>
+          <li>Edmondson, A. (1999). <em>Psychological Safety and Learning Behavior in Work Teams.</em> Administrative Science Quarterly, 44(2), 350–383. <a href="https://doi.org/10.2307/2666999" rel="noreferrer">DOI</a></li>
+          <li>Hoegl, M., & Gemuenden, H. G. (2001). <em>Teamwork Quality and the Success of Innovative Projects.</em> Organization Science, 12(4), 435–449. <a href="https://doi.org/10.1287/orsc.12.4.435.10635" rel="noreferrer">DOI</a></li>
+          <li>Mathieu, J. E., Maynard, M. T., Rapp, T., & Gilson, L. (2008). <em>Team Effectiveness 1997–2007.</em> Journal of Management, 34(3), 410–476. <a href="https://doi.org/10.1177/0149206308316061" rel="noreferrer">DOI</a></li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="privacy" class="section section-alt">
+      <div class="wrap privacy-grid">
+        <div>
+          <p class="eyebrow">Privacy model</p>
+          <h2>Designed so the website itself cannot collect your responses</h2>
+        </div>
+        <div class="panel">
+          <ul class="check-list">
+            <li>Responses live only in JavaScript memory and disappear on refresh/close.</li>
+            <li>No cookies, localStorage, IndexedDB, analytics, trackers, or service worker.</li>
+            <li>A strict Content Security Policy blocks network connections from the app.</li>
+            <li>Export happens only when you click an export button.</li>
+            <li>LLM analysis is a generated text prompt. The site does not transmit it anywhere.</li>
+          </ul>
+          <p class="microcopy">If you paste the generated prompt into an external LLM, that provider’s privacy and data-retention terms apply.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer-inner">
+      <span>Team Functioning Assessment · static site</span>
+      <a href="#methodology">Research & limitations</a>
+    </div>
+  </footer>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
