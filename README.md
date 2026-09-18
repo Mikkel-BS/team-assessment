@@ -11,7 +11,7 @@ A privacy-first, research-informed static team assessment designed for GitHub Pa
 - Team means and respondent standard deviations.
 - CSV export.
 - Predefined LLM-analysis prompts that are copied to the clipboard; the site itself sends no data to an LLM.
-- No cookies, analytics, localStorage, IndexedDB, service worker, external JavaScript, or application network requests.
+- Optional Team Differences Map using the 20-item Mini-IPIP plus original moral-values items mapped to the six MFQ-2 foundations.\n- The differences module requires at least five profiles before team-level results are displayed.\n- No cookies, analytics, localStorage, IndexedDB, service worker, external JavaScript, or application network requests.
 
 ## Research basis
 
@@ -39,4 +39,4 @@ The repository includes a GitHub Pages workflow. Pushes to `main` deploy the rep
 
 ## License
 
-Application code is MIT licensed. Academic works referenced above retain their respective copyrights.
+Application code is MIT licensed. Academic works referenced above retain their respective copyrights.\n\n## Optional Team Differences Map\n\n`differences.html` is a separate module for exploring within-team personality and moral-priority differences without bloating the core assessment. Personality uses the public-domain 20-item Mini-IPIP (Donnellan et al., 2006). The moral-values section uses original wording mapped to Care, Equality, Proportionality, Loyalty, Authority, and Purity/Sanctity; it is not presented as the validated MFQ-2.\n\nIndividual exports contain only 11 scale scores, a schema name, and a version number—no raw answers, names, timestamps, demographics, or free text. Team aggregation is suppressed below n=5, and LLM prompts contain aggregate means and standard deviations only.\n
