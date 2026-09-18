@@ -170,3 +170,11 @@ footer a { color: white; }
   .likert label { flex-direction: row; justify-content: flex-start; min-height: 0; text-align: left; padding: 10px 12px; }
   .panel { padding: 20px; }
 }
+
+
+.compact-module-section { padding-top: 48px; padding-bottom: 48px; }
+.module-card { display: flex; justify-content: space-between; align-items: center; gap: 32px; }
+.module-card > div { max-width: 760px; }
+.module-card h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); margin-bottom: 10px; }
+.module-card p:not(.eyebrow) { color: var(--muted); margin-bottom: 0; }
+@media (max-width: 700px) { .module-card { align-items: flex-start; flex-direction: column; } }
