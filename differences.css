@@ -1,0 +1,36 @@
+.differences-hero h1 { max-width: 900px; }
+.neutral-index { background: #ecefe9; }
+.compact-note { margin: -2px 0 12px; }
+.privacy-gate { margin-top: 20px; border-color: #e8ca7b; background: var(--warn-bg); }
+.privacy-gate p { margin-bottom: 0; color: var(--warn); }
+.difference-highlights {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin: 22px 0 30px;
+}
+.difference-highlights article {
+  display: grid;
+  gap: 6px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #f6f8f5;
+}
+.difference-highlights span { color: var(--muted); font-size: .88rem; }
+.difference-highlights strong { font-size: 1.08rem; }
+.discussion-panel { margin: 26px 0; box-shadow: none; }
+.discussion-panel ol { margin-bottom: 0; padding-left: 22px; }
+.discussion-panel li { margin: 9px 0; }
+.section-divider {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 38px 0 18px;
+}
+.section-divider::after { content: ""; height: 1px; background: var(--line); flex: 1; }
+.section-divider h3 { margin: 0; }
+.section-divider span { color: var(--muted); font-size: .88rem; white-space: nowrap; }
+@media (max-width: 700px) {
+  .difference-highlights { grid-template-columns: 1fr; }
+}
