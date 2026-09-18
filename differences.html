@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="A privacy-first team differences assessment covering Big Five personality and moral values." />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'" />
+  <title>Team Differences Map</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="differences.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="index.html">Team Functioning</a>
+      <nav aria-label="Primary navigation">
+        <a href="index.html">Core assessment</a>
+        <a href="#assessment">Assess</a>
+        <a href="#aggregate">Aggregate</a>
+        <a href="#methodology">Methodology</a>
+        <a href="#privacy">Privacy</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero wrap differences-hero">
+      <div>
+        <p class="eyebrow">Optional module · individual differences</p>
+        <h1>Where does your team differ?</h1>
+        <p class="lede">Explore differences in personality preferences and moral priorities without turning them into judgments about who is “better.” Individual answers stay on-device; team analysis uses anonymous scale summaries only.</p>
+        <div class="actions">
+          <a class="button primary" href="#assessment">Start individual assessment</a>
+          <a class="button secondary" href="#aggregate">Combine team responses</a>
+        </div>
+        <p class="microcopy">Separate from the team-functioning score. No accounts, cookies, localStorage, analytics, or application network requests.</p>
+      </div>
+      <aside class="hero-card" aria-label="Assessment overview">
+        <div><strong>38</strong><span>brief statements</span></div>
+        <div><strong>5</strong><span>personality dimensions</span></div>
+        <div><strong>6</strong><span>moral-value dimensions</span></div>
+        <div><strong>≥5</strong><span>responses for team results</span></div>
+      </aside>
+    </section>
+
+    <section class="band">
+      <div class="wrap grid-3">
+        <article><h2>Personality</h2><p>20-item Mini-IPIP: a short, validated Big Five measure drawn from the public-domain IPIP item pool.</p></article>
+        <article><h2>Moral priorities</h2><p>18 original items mapped to the six MFQ-2 foundations. Research-informed, but not the validated MFQ-2 itself.</p></article>
+        <article><h2>Interpretation</h2><p>The focus is dispersion and complementary preferences—not compatibility scores, political inference, or individual ranking.</p></article>
+      </div>
+    </section>
+
+    <section id="assessment" class="wrap section">
+      <div class="section-heading">
+        <p class="eyebrow">Individual assessment</p>
+        <h2>Describe your typical preferences</h2>
+        <p>Answer about yourself in general, not how you think your team wants you to behave. There are no desirable team profiles.</p>
+      </div>
+
+      <div id="differencesStart" class="panel">
+        <h3>Before you begin</h3>
+        <ul class="plain-list">
+          <li>Personality uses the 20-item Mini-IPIP; moral values use original items inspired by MFQ-2 constructs.</li>
+          <li>Results are for reflection and facilitation, not hiring, promotion, diagnosis, or performance evaluation.</li>
+          <li>Moral priorities should never be used to infer political identity, religion, or ideology.</li>
+          <li>Your export contains only 11 scale scores—not your 38 item responses or any identifier.</li>
+        </ul>
+        <button id="beginDifferencesBtn" class="button primary" type="button">Begin</button>
+      </div>
+
+      <form id="differencesForm" class="hidden" novalidate>
+        <div class="progress-shell" aria-label="Assessment progress">
+          <div class="progress-row"><span id="differencesProgressText">0 of 38 answered</span><span id="differencesProgressPct">0%</span></div>
+          <div class="progress-track"><div id="differencesProgressBar" class="progress-bar"></div></div>
+        </div>
+        <div id="differencesQuestionList"></div>
+        <div class="form-actions">
+          <button id="clearDifferencesBtn" type="button" class="button secondary">Clear answers</button>
+          <button type="submit" class="button primary">View my profile</button>
+        </div>
+        <p id="differencesError" class="error" role="alert" aria-live="polite"></p>
+      </form>
+
+      <section id="differencesIndividualResults" class="hidden results panel" aria-live="polite">
+        <div class="results-header">
+          <div>
+            <p class="eyebrow">Your private profile</p>
+            <h3>Preferences, not a performance score</h3>
+          </div>
+          <div class="index-card neutral-index">
+            <span>Dimensions</span>
+            <strong>11</strong>
+            <small>none is inherently better</small>
+          </div>
+        </div>
+        <p class="summary-callout">Use this profile to notice preferences you may bring into teamwork. Avoid treating small score differences as meaningful or fixed.</p>
+
+        <h3>Personality</h3>
+        <div id="individualPersonalityBars" class="score-bars"></div>
+        <h3>Moral priorities</h3>
+        <p class="microcopy compact-note">Scores indicate how strongly each consideration tends to matter to you; they are not a moral ranking.</p>
+        <div id="individualValuesBars" class="score-bars"></div>
+
+        <div class="results-actions">
+          <button id="exportDifferencesBtn" type="button" class="button primary">Export anonymous profile (.json)</button>
+          <button id="retakeDifferencesBtn" type="button" class="button secondary">Retake</button>
+        </div>
+        <p id="differencesIndividualStatus" class="status" aria-live="polite"></p>
+      </section>
+    </section>
+
+    <section id="aggregate" class="section section-alt">
+      <div class="wrap">
+        <div class="section-heading">
+          <p class="eyebrow">Team differences map</p>
+          <h2>Combine anonymous profiles locally</h2>
+          <p>Select exported profile files from team members. The browser calculates team means and dispersion. No imported profile leaves this device.</p>
+        </div>
+
+        <div class="panel">
+          <label class="file-drop" for="differenceFiles">
+            <strong>Select profile files</strong>
+            <span>Choose five or more <code>.json</code> files created by this module.</span>
+            <input id="differenceFiles" type="file" accept="application/json,.json" multiple />
+          </label>
+          <div id="differenceFileStatus" class="status" aria-live="polite"></div>
+        </div>
+
+        <section id="differencePrivacyGate" class="hidden panel privacy-gate" aria-live="polite">
+          <h3>More responses needed</h3>
+          <p id="differencePrivacyGateText"></p>
+        </section>
+
+        <section id="differencesTeamResults" class="hidden results panel">
+          <div class="results-header">
+            <div>
+              <p class="eyebrow">Anonymous team aggregate</p>
+              <h3><span id="differenceResponseCount">0</span> profiles combined</h3>
+            </div>
+            <div class="index-card neutral-index">
+              <span>Privacy threshold</span>
+              <strong>≥5</strong>
+              <small>no individual profiles shown</small>
+            </div>
+          </div>
+
+          <div class="difference-highlights">
+            <article><span>Most varied personality dimension</span><strong id="topPersonalityDifference">—</strong></article>
+            <article><span>Most varied moral priority</span><strong id="topValueDifference">—</strong></article>
+          </div>
+
+          <h3>Personality differences</h3>
+          <p class="microcopy compact-note">Mean shows the team's center of gravity; respondent SD shows how differently members describe themselves.</p>
+          <div id="teamPersonalityBars" class="score-bars"></div>
+
+          <h3>Moral-priority differences</h3>
+          <p class="microcopy compact-note">A higher mean is not “more moral.” Dispersion is often more useful than the mean for team discussion.</p>
+          <div id="teamValuesBars" class="score-bars"></div>
+
+          <div class="legend">
+            <span><i class="dot low"></i> relatively similar</span>
+            <span><i class="dot med"></i> meaningful variation</span>
+            <span><i class="dot high"></i> substantial variation</span>
+          </div>
+
+          <div class="panel discussion-panel">
+            <h3>Discussion prompts</h3>
+            <div id="localDiscussionPrompts"></div>
+          </div>
+
+          <div class="results-actions">
+            <button id="copyDifferencesPromptBtn" type="button" class="button primary">Copy team LLM analysis prompt</button>
+            <button id="exportDifferencesCsvBtn" type="button" class="button secondary">Export aggregate summary (.csv)</button>
+            <button id="clearDifferenceFilesBtn" type="button" class="button secondary">Clear imported data</button>
+          </div>
+          <p id="differencesTeamStatus" class="status" aria-live="polite"></p>
+        </section>
+      </div>
+    </section>
+
+    <section id="methodology" class="wrap section">
+      <div class="section-heading">
+        <p class="eyebrow">Methodology & limitations</p>
+        <h2>Two different levels of evidence</h2>
+        <p>The personality section uses a validated short measure. The moral-values section deliberately uses adapted construct-level wording to avoid presenting this site as an authorized reproduction of MFQ-2.</p>
+      </div>
+
+      <div class="method-grid">
+        <article class="method-card">
+          <h3>Mini-IPIP personality</h3>
+          <p>Four public-domain IPIP items per Big Five factor. The original Mini-IPIP validation found acceptable reliability and validity for a 20-item short form.</p>
+          <span>Donnellan et al. (2006) · IPIP public domain</span>
+        </article>
+        <article class="method-card">
+          <h3>Moral Foundations framework</h3>
+          <p>Care, Equality, Proportionality, Loyalty, Authority, and Purity/Sanctity. MFQ-2 research supports this six-foundation structure; the 18 items here are original adaptations and are not a validated MFQ-2 short form.</p>
+          <span>Atari et al. / Zakharin & Bates · MFQ-2 framework</span>
+        </article>
+      </div>
+
+      <div class="panel methodology-notes">
+        <h3>Interpret carefully</h3>
+        <p>Personality traits are continuous tendencies, not types. This app reports raw 1–5 scale means and does not use population norms. Neuroticism is displayed as <strong>Emotional stability</strong> by reversing the Mini-IPIP Neuroticism scale so the label is less stigmatizing.</p>
+        <p>Moral-priority scores are construct indicators for team discussion only. Because the wording here is adapted and not separately validated, do not compare these scores to published MFQ-2 norms or research samples.</p>
+        <p>Team diversity is represented with respondent standard deviation. The app does not produce compatibility scores, identify “outliers,” infer subgroups, or show individual members' values.</p>
+      </div>
+
+      <div class="references">
+        <h3>Core sources</h3>
+        <ol>
+          <li>International Personality Item Pool (IPIP). Public-domain items and scales. <a href="https://ipip.ori.org/" rel="noreferrer">Official site</a></li>
+          <li>Donnellan, M. B., Oswald, F. L., Baird, B. M., & Lucas, R. E. (2006). <em>The Mini-IPIP Scales: Tiny-Yet-Effective Measures of the Big Five Factors of Personality.</em> Psychological Assessment, 18(2), 192–203. <a href="https://doi.org/10.1037/1040-3590.18.2.192" rel="noreferrer">DOI</a></li>
+          <li>Zakharin, M., & Bates, T. C. (2023). <em>Moral Foundations Theory: Validation and replication of the MFQ-2.</em> Personality and Individual Differences, 214, 112339. <a href="https://doi.org/10.1016/j.paid.2023.112339" rel="noreferrer">DOI</a></li>
+          <li>Moral Foundations Theory. <a href="https://moralfoundations.org/questionnaires/" rel="noreferrer">Questionnaire resources</a></li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="privacy" class="section section-alt">
+      <div class="wrap privacy-grid">
+        <div>
+          <p class="eyebrow">Stricter privacy rules</p>
+          <h2>Measure individuals privately; interpret differences collectively</h2>
+        </div>
+        <div class="panel">
+          <ul class="check-list">
+            <li>Raw item answers exist only in page memory and disappear on refresh/close.</li>
+            <li>Exported files contain only 11 scale scores, a schema name, and a version number.</li>
+            <li>No names, IDs, timestamps, demographics, free text, or raw answers are exported.</li>
+            <li>Team results remain hidden until at least five valid profiles are loaded.</li>
+            <li>The LLM prompt contains only team means, standard deviations, and response count.</li>
+            <li>The prompt explicitly forbids political, religious, diagnostic, or individual-level inference.</li>
+          </ul>
+          <p class="microcopy">The person collecting files can still inspect an individual JSON file. For stronger practical anonymity, collect files through a process that does not reveal who submitted which file, and avoid retaining the source files after aggregation.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer-inner">
+      <span>Team Differences Map · optional module</span>
+      <a href="index.html">Back to team functioning</a>
+    </div>
+  </footer>
+
+  <script src="differences.js" defer></script>
+</body>
+</html>
